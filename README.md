@@ -91,7 +91,7 @@ Each scene covers schools, rivers, farmland, typical residential buildings, and 
 | Source | Link | Password |
 |--------|------|----------|
 | Baidu Netdisk | [Download](https://pan.baidu.com/s/1jlvAZRLa9byTfmDx0dF9mw?pwd=suk9) | `suk9` |
-
+| Baidu Netdisk | [Download](https://pan.baidu.com/share/init?surl=K_MugPPtgDhICZgn3PFoyg&pwd=4bnd) | `4bnd` |
 
 
 > **Note:** If you use this dataset in your research, please cite our paper (see below).
