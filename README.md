@@ -1,128 +1,132 @@
-<p align="center">
-  <h1 align="center">LD-AtlasLoc: Long-Distance Monocular Aerial Image Localization with Geo-Referenced Sparse Maps under GNSS-Degraded and Appearance-Changing Conditions</h1>
-  <p align="center">
-    <strong>Li Dongdong</strong> |
-    <strong>Yang Tao</strong> |
-    <strong>Qin Shuo</strong> |
-    <strong>Zhang Yisu</strong> |
-    <strong>Li Jing</strong>
-  </p>
-  <h3 align="center">
-    <a href="https://www.sciencedirect.com/science/article/pii/S092427162600537X">Paper</a> |
-    <a href="https://www.youtube.com/watch?v=1-a3fRpCcGE">YouTube Demo</a> |
-    <a href="https://v.qq.com/x/page/s32753laghj.html">Tencent Demo</a> 
-  </h3>
-</p>
+# LD3DGS-SLAM: Long-Distance Monocular SLAM with 3D Gaussian Splatting and GNSS-Aided Localization for UAVs
 
-<h2 align="center">Qualitative Comparisons</h2>
+[![Paper](https://img.shields.io/badge/Paper-IEEE%20IoT%20Journal-blue.svg)](https://ieeexplore.ieee.org/document/11271491)
+[![Dataset](https://img.shields.io/badge/Dataset-Baidu%20Netdisk-green.svg)](https://pan.baidu.com/s/1jlvAZRLa9byTfmDx0dF9mw?pwd=suk9)
+[![License](https://img.shields.io/badge/License-Custom-orange.svg)](./LICENSE)
 
-<h3 align="center">Foggy Scene - Baseline Method</h3>
+> **Official repository for the paper:**  
+> *LD3DGS-SLAM: Long-Distance Monocular SLAM with 3D Gaussian Splatting and GNSS-Aided Localization for UAVs*  
+> **IEEE Internet of Things Journal**, 2026, 13(4): 7320–7340.
 
-<p align="center">
-  <img src="./media/fog-baseline-hd.gif" alt="Foggy scene baseline localization result" width="100%">
-</p>
+---
 
-<h3 align="center">Foggy Scene - LD-AtlasLoc (Ours)</h3>
+## 📌 Abstract
 
-<p align="center">
-  <img src="./media/fog-atlas-loc-hd.gif" alt="Foggy scene Atlas-Loc localization result" width="100%">
-</p>
+Integrating neural rendering with simultaneous localization and mapping (SLAM) has shown great promise for achieving high-precision localization and photorealistic scene reconstruction. However, the dynamic perspectives of uncrewed aerial vehicles (UAVs), compounded by Global Navigation Satellite System (GNSS) signal interference and the accumulation of localization errors, pose significant challenges to existing monocular SLAM methods in complex environments. To address these limitations, we propose **LD3DGS-SLAM**, a novel framework that integrates monocular SLAM, GNSS, and 3D Gaussian splatting (3DGS) to enhance UAV-based localization and mapping.
 
-<h3 align="center">Night Scene - Baseline Method</h3>
+The system integrates traditional geometric feature-based localization with the multiview synthesis capability of 3D Gaussian rendering, achieving a breakthrough in accuracy while enhancing robustness. First, we construct a multisensor fusion graph optimization model that tightly integrates GNSS and monocular vision data, effectively mitigating the cumulative drift typical of traditional SLAM pipelines. Afterward, we introduce a 3D Gaussian-based mapping strategy that incrementally refines a dense scene representation using SLAM-generated point clouds, fusing geometric and texture information to reconstruct highly accurate and detailed maps. To further enhance localization performance in GNSS-denied scenarios, we develop a dynamic frame interpolation and tracking approach based on 3D Gaussian rendering. By synthesizing novel viewpoints, this method improves observation matching and strengthens loop closure detection, enabling robust relocalization in large-scale environments.
 
-<p align="center">
-  <img src="./media/night-baseline-hd.gif" alt="Night scene baseline localization result" width="100%">
-</p>
+Experimental results show that LD3DGS-SLAM achieves a state-of-the-art average localization error of only **0.8 meters** using just a monocular camera, even during long-range flight missions exceeding tens of kilometers and altitudes up to 500 meters.
 
-<h3 align="center">Night Scene - LD-AtlasLoc (Ours)</h3>
+---
 
-<p align="center">
-  <img src="./media/night-atlas-loc-hd.gif" alt="Night scene Atlas-Loc localization result" width="100%">
-</p>
+## 👥 Authors
 
-<br>
+| Name | Affiliation |
+|------|-------------|
+| Dongdong Li | <sup>1</sup> |
+| Tao Yang | <sup>1</sup> |
+| Yilin Wang | <sup>1</sup> |
+| Haidong Qin | <sup>1</sup> |
+| Shixiong Fan | <sup>1</sup> |
+| Shuanghan Zhang | <sup>2</sup> |
+| Yidan Zhang | <sup>2</sup> |
+| Jing Li | <sup>2</sup> |
 
-## Overview
+<sup>1</sup> Primary Institution  
+<sup>2</sup> Secondary Institution
 
-Accurate, long-distance UAV and eVTOL navigation remains a critical challenge in urban canyons, complex electromagnetic environments, and under GNSS interference. While visual SLAM reduces GNSS reliance, it often suffers from drift and tracking failure under drastic appearance changes (fog, rain, day-night).
+---
 
-**LD-AtlasLoc** is a monocular visual relocalization framework designed for **intermittent GNSS-degraded scenarios**. It bridges the gap between high-precision mapping and robust online localization.
+## 🔑 Key Contributions
 
+- **Multisensor Fusion Graph Optimization**: Tightly couples GNSS and monocular vision to eliminate cumulative drift in long-distance UAV flights.
+- **3D Gaussian Splatting Mapping**: Incrementally refines dense scene reconstruction from SLAM point clouds with fused geometry and texture.
+- **Rendering-Based Relocalization**: Synthesizes novel viewpoints via 3DGS to improve matching and loop closure detection in GNSS-denied environments.
+- **Large-Scale Aerial Dataset**: Provides a self-collected dataset spanning several kilometers with altitudes from 240 m to 500 m across three distinct scenes (NWPU, XAMIT, XAUAT).
+- **SOTA Performance**: Achieves 0.8 m average localization error in flights exceeding 10 km at up to 500 m altitude using only a monocular camera.
 
-## DEMO
-https://github.com/Ldd-slam/LD-AtlasLoc/blob/main/demo.mp4
+---
 
+## 📊 Dataset
 
+### Dataset Overview
 
-## Dataset Description
+Our dataset consists of both public and self-collected data sources:
 
+| Source | Description | Usage |
+|--------|-------------|-------|
+| **TUM** [2] | Public indoor small-scale dataset, monocular & RGB-D, no GNSS | Camera tracking & mapping comparison (small-scale indoor) |
+| **Self-Collected (eVTOL)** | 30 km wide-area, 120 m altitude, fisheye camera, RTK GNSS | Evaluate accumulated error in long-distance monocular visual SLAM |
+| **Self-Collected (UAV)** | Multi-altitude (240–500 m), high-res color, 3 scenes | Validate effective range & localization accuracy of the map |
 
-<video controls width="720">
-  <source src="https://github.com/Ldd-slam/LD-AtlasLoc/releases/download/v1.0/demo.mp4" type="video/mp4">
-</video>
+### Data Showcase
 
+![Dataset Showcase](media/dataset-showcase.png)
 
+*Figure 1: Overview of the self-collected aerial dataset covering three university campus scenes (NWPU, XAMIT, XAUAT) at multiple altitudes.*
 
+### Data Information Table
 
+![Data Information](media/datainfo.png)
 
-LD-AtlasLoc is constructed to reflect **real-world low-altitude flight constraints**, covering diverse urban and suburban environments. Unlike conventional datasets, it focuses on flight-compliant trajectories and challenging environmental conditions.
-
-### 🚁 Flight Profile & Compliance
-- **Realistic Altitude:** Flights are conducted at **120–150 m**, aligning with typical low-altitude logistics and urban eVTOL operational limits.
-- **Compliant Trajectories:** Paths strictly follow **urban roads, green belts, and open areas**, avoiding arbitrary intrusion into dense built-up zones.
-- **Safety Constraints:** Collection adheres to real-world regulations, including airspace permissions, safe distances from buildings, and privacy standards.
-
-### 🌦️ Environmental Diversity
-The dataset introduces substantial variations to challenge visual robustness:
-
-| Dimension | Conditions Covered |
-| :--- | :--- |
-| **Season** | Winter ↔️ Spring (significant vegetation changes) |
-| **Illumination** | High solar elevation, long building shadows, night vs. day |
-| **Weather** | ☀️ Sunny · ☁️ Cloudy · 🌫️ Foggy · 🌧️ Rainy · 🌃 Night |
-
-**Specific Challenges:**
-- **Fog:** Severe visibility degradation, with near-total texture loss in most regions.
-- **Rain:** Local blur, reflections, and sensor noise.
-- **Low-light / Night:** Underexposure, streetlight glare, motion blur, and reduced descriptor discriminability.
-
-### 🏙️ Scene Composition
-We cover three representative low-altitude urban environments:
-
-| Scene ID | Description | Key Characteristics |
-| :--- | :--- | :--- |
-| **City1-Buildings** | Mixed Urban-Suburban | Combination of high-rise and low-rise structures. |
-| **City2-Skyscrapers** | Dense Urban Center | **24–30 stories** (up to 120 m). Exhibits severe **Urban Canyon
-| **City3-outskirts** | ​Suburban / Rural Fringe | **Sparse vegetation** and **repetitive ground textures** leading to feature scarcity. |
+*Figure 2: Detailed localization data information for NWPU, XAMIT, and XAUAT scenes.*
 
 
-### 1. Data Description​
-The compressed files City1-buildings.rar, City2-skyscrapers.rar, and City3-outskirts.rar contain image data. The original resolution of 5472×3648 has been downscaled to 1805×1203.
-### 2. RTK-GNSS Information​
-Each image retains RTK-GNSS information with centimeter-level accuracy, which can be used for mapping and ground-truth error evaluation.
-### 3. Data Collection Details​
-Multiple sequences per scene were recorded along the same trajectory across different times. Trajectories are not strictly repeated, with ~20 m deviations in all directions to simulate realistic flight perturbations, thereby enabling robust evaluation of localization across diverse parallax views.
 
-## Dataset Access
+### Dynamic Dataset Description
 
-- [Baidu Netdisk](https://pan.baidu.com/s/1QL3i6Cz4F0489Y-cX65Z4Q?pwd=3spe/)
+The self-collected dataset includes dynamic objects (moving vehicles and pedestrians) and was captured across different time periods at three university campuses:
 
+- **NWPU** (Northwestern Polytechnical University)
+- **XAMIT** (Xi'an Aeronautical Institute)
+- **XAUAT** (Xi'an University of Architecture and Technology)
+
+Each scene covers schools, rivers, farmland, typical residential buildings, and roads, with data collected at altitudes ranging from 240 m to 500 m.
+
+---
+
+## 📥 Dataset Download
+
+| Source | Link | Password |
+|--------|------|----------|
+| Baidu Netdisk | [Download](https://pan.baidu.com/s/1jlvAZRLa9byTfmDx0dF9mw?pwd=suk9) | `suk9` |
+
+
+
+> **Note:** If you use this dataset in your research, please cite our paper (see below).
+
+---
+
+## 📖 Citation
+
+If you find this work useful for your research, please cite:
+
+
+```bibtex
+@article{11271491,
+author={Li, Dongdong and Yang, Tao and Wang, Yilin and Qin, Haidong and Fan, Shixiong and Zhang, Shuanghan and Zhang, Yidan and Li, Jing},
+journal={IEEE Internet of Things Journal},
+title={LD3DGS-SLAM: Long-Distance Monocular SLAM With 3-D Gaussian Splatting and GNSS-Aided Localization for UAVs},
+year={2026},
+volume={13},
+number={4},
+pages={7320-7340},
+doi={10.1109/JIOT.2025.3638876}
+}
+```
+
+
+## 📄 License
+
+This repository and dataset are released for academic research purposes only. Please refer to the [LICENSE](./LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgements
+
+We thank the IEEE Internet of Things Journal editorial team and reviewers for their valuable feedback. We also acknowledge the TUM dataset [2] for providing the public benchmark used in our evaluation.
 
 ## Contact
 - [Team Introduction](https://robot-vision.net/) 
 - [Personal Email](1051196347@qq.com)
-
-
-```bibtex
-@article{LI2027970,
-title = {LD-AtlasLoc: Long-distance monocular aerial image localization with geo-referenced sparse maps under GNSS-degraded and appearance-changing conditions},
-journal = {ISPRS Journal of Photogrammetry and Remote Sensing},
-volume = {243},
-pages = {970-988},
-year = {2027},
-issn = {0924-2716},
-doi = {https://doi.org/10.1016/j.isprsjprs.2026.10.040},
-url = {https://www.sciencedirect.com/science/article/pii/S092427162600537X},
-author = {Dongdong Li and Tao Yang and Shuo Qin and Yisu Zhang and Jing Li},
-}
-```
